@@ -1,0 +1,19 @@
+{
+  "name": "colorful-beginner-face-22ohp",
+  "productName": "colorful-beginner-face-22ohp",
+  "description": "My Electron application description",
+  "keywords": [],
+  "main": "./main.js",
+  "version": "1.0.0",
+  "author": "zblackwood",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "codemirror": "6.0.1",
+    "@codemirror/lang-python": "6.1.0"
+  },
+  "devDependencies": {
+    "electron": "20.1.4"
+  }
+}
