@@ -130,7 +130,7 @@ const TOTAL_WIDTH = 2000;
 const TOTAL_HEIGHT = 1000;
 const LEFT_WIDTH = 1000;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
-const LEFT_DEBUGGER = false;
+const LEFT_DEBUGGER = false
 const RIGHT_DEBUGGER = false
 
 function createWindow () {
@@ -194,7 +194,7 @@ app.whenReady().then(async () => {
   rightView.webContents.loadURL(url);
 
   app.on("will-quit", () => {
-    datasette.shutdown();
+    app.quit();
   });
 })
 

@@ -1,6 +1,5 @@
 // Inspired/copied liberally from datasette-app
 
-const spawn = require("child_process").spawn;
 const path = require('path')
 const fs = require('fs')
 const util = require("util")
@@ -9,8 +8,10 @@ const cp = require("child_process")
 const execFile = util.promisify(cp.execFile)
 const EventEmitter = require("events");
 const { dialog } = require("electron")
+const {BrowserWindow} = require('electron')
 
 
+const DEBUG = false;
 
 const minPackageVersions = {
   "streamlit": "1.15.2",
@@ -21,16 +22,27 @@ const minPackageVersions = {
 function findPython(python_version, app) {
   const possibilities = [
     // In packaged app
-    path.join(process.resourcesPath, "python", "bin", `python${python_version}`),
+    path.join(process.resourcesPath, "app", "python", "bin", `python${python_version}`),
     // In development
     path.join(__dirname, "python", "bin", `python${python_version}`),
   ];
   for (const path of possibilities) {
     if (fs.existsSync(path)) {
+      if (DEBUG) {
+        dialog.showMessageBox({
+          type: "info",
+          message: "Found python3",
+          detail: path,
+        });
+      }
       return path;
     }
   }
-  console.log("Could not find python3, checked", possibilities);
+  dialog.showMessageBox({
+    type: "error",
+    message: "Could not find python3",
+    detail: "Could not find python3, checked" + possibilities.join(", "),
+  });
   app.quit();
 }
 
@@ -64,11 +76,28 @@ class StreamlitServer {
     this.cappedServerLog.push(item);
     this.logEmitter.emit("serverLog", item);
     this.cappedServerLog = this.cappedServerLog.slice(-this.cap);
+    try {
+      BrowserWindow.getAllWindows()[0].getBrowserViews()[0].webContents.send("serverLog", JSON.stringify(item));
+    } catch (e) {
+      // BrowserView not loaded
+    }
   }
   processLog(item) {
     this.cappedProcessLog.push(item);
     this.logEmitter.emit("processLog", item);
     this.cappedProcessLog = this.cappedProcessLog.slice(-this.cap);
+    try {
+      BrowserWindow.getAllWindows()[0].getBrowserViews()[0].webContents.send("processLog", JSON.stringify(item));
+    } catch (e) {
+      // BrowserView not loaded
+    }
+    if (DEBUG) {
+      dialog.showMessageBox({
+        type: "error",
+        message: "Running",
+        detail: JSON.stringify(item),
+      });
+    }
   }
 
   serverArgs() {
@@ -81,10 +110,6 @@ class StreamlitServer {
       "true",
     ];
     return args;
-  }
-
-  serverLog(line) {
-    console.log(line);
   }
 
   serverEnv() {
@@ -104,12 +129,15 @@ class StreamlitServer {
     //this.process = this.spawn(streamlit_bin,["run", this.file].concat(this.serverArgs()));
 
     return new Promise((resolve, reject) => {
+      try {
+        kill(this.port, 'tcp')
+      } catch (e) {
+        // Only kill it if there is another process running on the port
+      }
       let process;
       try {
+        const kill = require('kill-port')
         process = cp.spawn(streamlit_bin,["run", this.file].concat(this.serverArgs()));
-        //process = cp.spawn(streamlit_bin, this.serverArgs(), {
-        //  env: this.serverEnv(),
-        //});
       } catch (e) {
         reject(e);
       }

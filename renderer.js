@@ -22,7 +22,7 @@ const updated = (newCode) => {
 
 const editor = new EditorView({
   doc: `import streamlit as st
-st.write("Hello world!")`,
+st.write("# Hello world!")`,
   extensions: [
       basicSetup,
       keymap.of([indentWithTab]),
@@ -41,21 +41,36 @@ st.write("Hello world!")`,
 // Update to initial state
 updated(editor.state.doc.toString())
 
+require('electron').ipcRenderer.on('serverLog', (event, message) => {
+    // Send logs to the #logs div
+    const logDiv = document.getElementById('logs');
+    logDiv.value += message;
+})
+
+require('electron').ipcRenderer.on('processLog', (event, message) => {
+    // Send logs to the #logs div
+    const logDiv = document.getElementById('logs');
+    logDiv.value += message;
+})
+
 require('electron').ipcRenderer.on('menuItemClick', (event, message) => {
     let contents = "";
     if (message == "Basic") {
         contents = `import streamlit as st
-st.title("Hello, world!")
+st.write("# Hello, world!")
         `
     }
     else if (message == "Plot") {
         contents = `import streamlit as st
+st.write('# Some charts')
 
 st.line_chart({"a": [1,2,3], "b": [2,5,10]})
         `
     }
     else if (message == "Complex") {
         contents = `import streamlit as st
+
+st.write('# Some More Streamlit Stuff')
 
 tab1, tab2, tab3 = st.tabs(["These", "Are", "Tabs"])
 

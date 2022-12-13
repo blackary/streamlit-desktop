@@ -1,19 +1,58 @@
 {
-  "name": "colorful-beginner-face-22ohp",
-  "productName": "colorful-beginner-face-22ohp",
-  "description": "My Electron application description",
+  "name": "streamlit-desktop",
+  "productName": "streamlit-desktop",
+  "description": "App for developing streamlit applications",
   "keywords": [],
   "main": "./main.js",
   "version": "1.0.0",
-  "author": "zblackwood",
+  "author": "blackary",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
   },
   "dependencies": {
+    "@codemirror/lang-python": "6.1.0",
     "codemirror": "6.0.1",
-    "@codemirror/lang-python": "6.1.0"
+    "kill-port": "^2.0.1"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.64",
+    "@electron-forge/maker-deb": "^6.0.0-beta.64",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.64",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
+    "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "electron": "20.1.4"
-  }
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "extraResource": [
+          "./python/"
+        ]
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel"
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  },
+  "license": "MIT"
 }
