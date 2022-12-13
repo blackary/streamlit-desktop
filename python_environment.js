@@ -153,7 +153,7 @@ class StreamlitServer {
   }
 
   async ensureVenv() {
-    const stdesktop_app_dir = path.join(process.env.HOME, ".streamlt-desktop");
+    const stdesktop_app_dir = path.join(process.env.HOME, ".streamlit-desktop");
     const venv_dir = path.join(stdesktop_app_dir, "envs", this.environment);
     if (!fs.existsSync(stdesktop_app_dir)) {
       await mkdir(stdesktop_app_dir);
