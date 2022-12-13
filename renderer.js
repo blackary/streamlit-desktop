@@ -24,9 +24,9 @@ const editor = new EditorView({
   doc: `import streamlit as st
 st.write("Hello world!")`,
   extensions: [
-      basicSetup, 
+      basicSetup,
       keymap.of([indentWithTab]),
-      python(), 
+      python(),
       EditorView.updateListener.of((viewUpdate) => {
         if (viewUpdate.docChanged) {
             const doc = viewUpdate.state.doc;
@@ -64,7 +64,7 @@ with tab1:
 with tab2:
     st.write("The middle tab!")
 
-with tab3: 
+with tab3:
     st.write("Another tab???")
 
 num = st.slider("Select number", 1, 10, 3)
@@ -75,9 +75,9 @@ st.write(f"{num}^{num}: ", num**num)
     editor.setState(EditorState.create({
         doc: contents,
         extensions: [
-            basicSetup, 
+            basicSetup,
             keymap.of([indentWithTab]),
-            python(), 
+            python(),
             EditorView.updateListener.of((viewUpdate) => {
                 if (viewUpdate.docChanged) {
                     const doc = viewUpdate.state.doc;
@@ -91,12 +91,15 @@ st.write(f"{num}^{num}: ", num**num)
     updated(contents);
 })
 
-const spawn = require("child_process").spawn;
-const streamlit = spawn('streamlit',["run", "/tmp/test-sync.py", "--server.port", "8509"]);
+//const spawn = require("child_process").spawn;
+//const streamlit = spawn('streamlit',["run", "/tmp/test-sync.py", "--server.port", "8509"]);
 
-console.log(streamlit)
+//const streamlit = new StreamlitServer("/tmp/test-sync.py", "8509")
 
-streamlit.stdout.on('data', data => console.log('data : ', data.toString()))
-streamlit.on('close', ()=>{
+//console.log(streamlit)
+
+//streamlit.stdout.on('data', data => console.log('data : ', data.toString()))
+//streamlit.on('close', ()=>{
   // Python ends, do stuff
-})
+  // streamlit.shutdown()
+//})
