@@ -22,11 +22,11 @@ const updated = (newCode) => {
 
 const editor = new EditorView({
   doc: `import streamlit as st
-st.write("Hello world!")`,
+st.write("# Hello world!")`,
   extensions: [
-      basicSetup, 
+      basicSetup,
       keymap.of([indentWithTab]),
-      python(), 
+      python(),
       EditorView.updateListener.of((viewUpdate) => {
         if (viewUpdate.docChanged) {
             const doc = viewUpdate.state.doc;
@@ -41,21 +41,36 @@ st.write("Hello world!")`,
 // Update to initial state
 updated(editor.state.doc.toString())
 
+require('electron').ipcRenderer.on('serverLog', (event, message) => {
+    // Send logs to the #logs div
+    const logDiv = document.getElementById('logs');
+    logDiv.value += message;
+})
+
+require('electron').ipcRenderer.on('processLog', (event, message) => {
+    // Send logs to the #logs div
+    const logDiv = document.getElementById('logs');
+    logDiv.value += message;
+})
+
 require('electron').ipcRenderer.on('menuItemClick', (event, message) => {
     let contents = "";
     if (message == "Basic") {
         contents = `import streamlit as st
-st.title("Hello, world!")
+st.write("# Hello, world!")
         `
     }
     else if (message == "Plot") {
         contents = `import streamlit as st
+st.write('# Some charts')
 
 st.line_chart({"a": [1,2,3], "b": [2,5,10]})
         `
     }
     else if (message == "Complex") {
         contents = `import streamlit as st
+
+st.write('# Some More Streamlit Stuff')
 
 tab1, tab2, tab3 = st.tabs(["These", "Are", "Tabs"])
 
@@ -64,7 +79,7 @@ with tab1:
 with tab2:
     st.write("The middle tab!")
 
-with tab3: 
+with tab3:
     st.write("Another tab???")
 
 num = st.slider("Select number", 1, 10, 3)
@@ -75,9 +90,9 @@ st.write(f"{num}^{num}: ", num**num)
     editor.setState(EditorState.create({
         doc: contents,
         extensions: [
-            basicSetup, 
+            basicSetup,
             keymap.of([indentWithTab]),
-            python(), 
+            python(),
             EditorView.updateListener.of((viewUpdate) => {
                 if (viewUpdate.docChanged) {
                     const doc = viewUpdate.state.doc;
@@ -89,14 +104,4 @@ st.write(f"{num}^{num}: ", num**num)
     }))
 
     updated(contents);
-})
-
-const spawn = require("child_process").spawn;
-const streamlit = spawn('streamlit',["run", "/tmp/test-sync.py", "--server.port", "8509"]);
-
-console.log(streamlit)
-
-streamlit.stdout.on('data', data => console.log('data : ', data.toString()))
-streamlit.on('close', ()=>{
-  // Python ends, do stuff
 })

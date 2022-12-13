@@ -17,3 +17,13 @@ GIF showing how the application works
 ## Contributing
 
 PRs are welcome from Snowflake employees
+
+## Local Development
+
+Clone the repo and run the following commands:
+
+```sh
+./download_python.sh
+npm install
+npm run
+```

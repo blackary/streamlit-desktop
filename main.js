@@ -1,6 +1,7 @@
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, BrowserView, Menu} = require('electron')
 const path = require('path')
+const StreamlitServer = require('./python_environment').StreamlitServer
 
 const isMac = process.platform === 'darwin'
 
@@ -127,8 +128,10 @@ Menu.setApplicationMenu(menu)
 const TOP = 30;
 const TOTAL_WIDTH = 2000;
 const TOTAL_HEIGHT = 1000;
-const LEFT_WIDTH = 1200;
+const LEFT_WIDTH = 1000;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
+const LEFT_DEBUGGER = false
+const RIGHT_DEBUGGER = false
 
 function createWindow () {
   // Create the browser window.
@@ -143,7 +146,7 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration:  true, // SHOULD FIGURE OUT HOW TO REMOVE THESE SECURITY HOLES EVENTUALLY
       contextIsolation: false
-    } 
+    }
   })
 
   mainWindow.addBrowserView(leftView)
@@ -153,50 +156,46 @@ function createWindow () {
   leftView.webContents.loadFile('index.html')
 
   const rightView = new BrowserView({
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration:  true, // SHOULD FIGURE OUT HOW TO REMOVE THESE SECURITY HOLES EVENTUALLY
-      contextIsolation: false
-    } 
+    webPreferences: {}
   })
 
   mainWindow.addBrowserView(rightView)
 
   rightView.setBounds({ x: LEFT_WIDTH, y: TOP, width: RIGHT_WIDTH, height: TOTAL_HEIGHT - TOP })
-  rightView.webContents.loadURL('http://localhost:8509')
+  rightView.webContents.loadFile('loading.html')
 
+  if (LEFT_DEBUGGER) leftView.webContents.openDevTools();
+  if (RIGHT_DEBUGGER) rightView.webContents.openDevTools();
 
-  /*
-
-  const streamlitWindow = new BrowserWindow({
-    width: 1200,
-    height: 600,
-    webPreferences: {
-    }
-  })
-
-  streamlitWindow.loadURL("http://localhost:8509");*/
-
-  // and load the index.html of the app.
-  //mainWindow.loadFile('index.html')
-
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-  leftView.webContents.openDevTools();
+  return [leftView, rightView];
 }
+
+let streamlit_server = null;
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  createWindow()
+app.whenReady().then(async () => {
+  let [leftView, rightView] = createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) {
+      [leftView, rightView] = createWindow()
+    }
   })
+
+  if (!streamlit_server) {
+    streamlit_server = new StreamlitServer(app, '/tmp/test-sync.py', 8599);
+  }
+  let url = await streamlit_server.startOrRestart();
+  console.log(url);
+  rightView.webContents.loadURL(url);
+
+  app.on("will-quit", () => {
+    app.quit();
+  });
 })
 
 // Quit when all windows are closed, except on macOS. There, it's common
