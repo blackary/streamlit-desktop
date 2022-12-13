@@ -18,6 +18,9 @@ const minPackageVersions = {
   "pip": "22.3.1",
   "streamlit-extras": "0.2.4",
   "snowflake-snowpark-python": "1.0.0",
+  "matplotlib": "3.6.2",
+  "scikit-learn": "1.1.3",
+  "plotly": "5.11.0",
 }
 
 function findPython(python_version, app) {
