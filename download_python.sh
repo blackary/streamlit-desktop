@@ -14,3 +14,5 @@ fi
 
 # For now, just copy the python folder to the default Streamlit Desktop environment
 cp -r python/* ~/.streamlit-desktop/envs/default/
+
+rm -rf python/
