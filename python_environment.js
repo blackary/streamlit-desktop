@@ -177,6 +177,7 @@ class StreamlitServer {
   }
 
   async ensurePackagesInstalled() {
+    // TODO: Should be able to use `pip freeze` to check these things more quickly
     const venv_dir = await this.ensureVenv();
     // Anything need installing or upgrading?
     const needsInstall = [];

@@ -156,35 +156,14 @@ function createWindow () {
   leftView.webContents.loadFile('index.html')
 
   const rightView = new BrowserView({
-    webPreferences: {
-    }
+    webPreferences: {}
   })
 
   mainWindow.addBrowserView(rightView)
 
   rightView.setBounds({ x: LEFT_WIDTH, y: TOP, width: RIGHT_WIDTH, height: TOTAL_HEIGHT - TOP })
-  //rightView.webContents.loadURL('http://localhost:8599')
   rightView.webContents.loadFile('loading.html')
 
-
-  /*
-
-  const streamlitWindow = new BrowserWindow({
-    width: 1200,
-    height: 600,
-    webPreferences: {
-    }
-  })
-
-  streamlitWindow.loadURL("http://localhost:8509");*/
-
-  // and load the index.html of the app.
-  //mainWindow.loadFile('index.html')
-
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-  //leftView.webContents.openDevTools();
   if (LEFT_DEBUGGER) leftView.webContents.openDevTools();
   if (RIGHT_DEBUGGER) rightView.webContents.openDevTools();
 

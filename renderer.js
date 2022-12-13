@@ -90,16 +90,3 @@ st.write(f"{num}^{num}: ", num**num)
 
     updated(contents);
 })
-
-//const spawn = require("child_process").spawn;
-//const streamlit = spawn('streamlit',["run", "/tmp/test-sync.py", "--server.port", "8509"]);
-
-//const streamlit = new StreamlitServer("/tmp/test-sync.py", "8509")
-
-//console.log(streamlit)
-
-//streamlit.stdout.on('data', data => console.log('data : ', data.toString()))
-//streamlit.on('close', ()=>{
-  // Python ends, do stuff
-  // streamlit.shutdown()
-//})
