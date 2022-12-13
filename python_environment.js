@@ -15,8 +15,9 @@ const DEBUG = false;
 
 const minPackageVersions = {
   "streamlit": "1.15.2",
-  //"streamlit-extras": "0.2.4",
-  //"snowflake-snowpark-python": "1.0.0",
+  "pip": "22.3.1",
+  "streamlit-extras": "0.2.4",
+  "snowflake-snowpark-python": "1.0.0",
 }
 
 function findPython(python_version, app) {
