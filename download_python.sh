@@ -17,7 +17,7 @@ if [ ! -d "$destination_folder" ]; then
     mkdir -p ${destination_folder}
 
     # For now, just copy the python folder to the default Streamlit Desktop environment
-    cp -r python/* {destination_folder}
+    cp -r python/* ${destination_folder}
 
     rm -rf python/
 else
