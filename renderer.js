@@ -106,6 +106,7 @@ st.write('Some charts')
 
 df = pd.DataFrame({"a": [1,2,3], "b": [2,5,10]})
 st.line_chart(df)
+st.write("# :boom: :boom: :boom: :boom: :boom:")
 st.bar_chart(df)`
     }
     else if (message == "Complex") {
@@ -121,7 +122,7 @@ st.write(
     """Replace this example with your own code!
     **And if you're new to Streamlit,** check
     out our easy-to-follow guides at
-    [docs.streamlit.io](docs.streamlit.io).
+    [docs.streamlit.io](https://docs.streamlit.io).
     """
 )
 
