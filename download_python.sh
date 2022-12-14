@@ -19,7 +19,7 @@ if [ ! -d "$destination_folder" ]; then
     # For now, just copy the python folder to the default Streamlit Desktop environment
     cp -r python/* ${destination_folder}
 
-    rm -rf python/
+    # rm -rf python/
 else
     echo "Python already exists in the default Streamlit Desktop environment"
 fi
