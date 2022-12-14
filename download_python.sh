@@ -1,6 +1,7 @@
 #!/bin/bash
 release_date="20221106"
-filename="cpython-3.8.15+20221106-aarch64-apple-darwin-install_only.tar.gz"
+filename="cpython-3.8.15+${release_date}-x86_64-apple-darwin-install_only.tar.gz"
+
 
 standalone_python="python/"
 
