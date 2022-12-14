@@ -2,6 +2,7 @@
 const {app, BrowserWindow, BrowserView, Menu} = require('electron')
 const path = require('path')
 const StreamlitServer = require('./python_environment').StreamlitServer
+const portfinder = require('portfinder');
 
 const isMac = process.platform === 'darwin'
 
@@ -187,12 +188,18 @@ app.whenReady().then(async () => {
     }
   })
 
+
+
   if (!streamlit_server) {
-    streamlit_server = new StreamlitServer(app, '/tmp/test-sync.py', 8599);
+      portfinder.getPortPromise({port: 8599}).then(async (port) => {
+        streamlit_server = new StreamlitServer(app, '/tmp/test-sync.py', port);
+        let url = await streamlit_server.startOrRestart();
+        rightView.webContents.loadURL(url);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
-  let url = await streamlit_server.startOrRestart();
-  console.log(url);
-  rightView.webContents.loadURL(url);
 
   app.on("will-quit", () => {
     app.quit();
