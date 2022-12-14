@@ -12,6 +12,7 @@ body {
   line-height: 1;
   text-align: left;
   padding: 12px 20px;
+  padding-bottom: 200px;
 }
 
 h1 {
@@ -42,10 +43,22 @@ p {
   letter-spacing: -1px;
   line-height: 1;
   text-align: left;
+  padding-bottom: 20px;
+}
+
+#editor {
+  width: 80%;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  outline-style: solid;
+  outline-color: black;
+  outline-width: 3px;
+  margin: 30px;
 }
 
 textarea {
-  width: 30%;
+  width: 50%;
   height: 150px;
   padding: 12px 20px;
   box-sizing: border-box;
@@ -54,7 +67,11 @@ textarea {
   background-color: #f8f8f8;
   font-size: 16px;
   resize: none;
+  outline-style: solid;
+  outline-color: black;
+  outline-width: 3px;
+  margin-left: 30px;
 }
 .log-label {
-  margin-top: 40px;
+  margin-top: 10px;
 }
