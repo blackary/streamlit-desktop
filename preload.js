@@ -6,15 +6,48 @@
  * https://www.electronjs.org/docs/latest/tutorial/sandbox
  */
 
-window.addEventListener('DOMContentLoaded', () => {
-  /*
-  const replaceText = (selector, text) => {
-    const element = document.getElementById(selector)
-    if (element) element.innerText = text
-  }
+const DEFAULT_APPS = [
+  "my_first_streamlit",
+  "my_second_streamlit",
+  "my_third_streamlit"
+]
 
-  for (const type of ['chrome', 'node', 'electron']) {
-    replaceText(`${type}-version`, process.versions[type])
+const fs = require('fs');
+const {APPS_DIR} = require('./consts');
+
+const getApps = () => {
+  const apps = fs.readdirSync(APPS_DIR);
+  return apps;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+
+  const apps = getApps();
+  if (apps.length === 0) {
+    apps = DEFAULT_APPS
+    DEFAULT_APPS.forEach(app => {
+      fs.mkdirSync(`${APPS_DIR}/${app}`);
+      let contents = DEFAULT_APP_CONTENTS + `\n"## This is ${selectedApp}"`;
+      fs.writeFileSync(`${APPS_DIR}/${app}/streamlit_app.py`, contents);
+    });
   }
-  */
+  const appSelector = document.getElementById("app-selector")
+
+  apps.forEach(app => {
+    let option = document.createElement("option");
+    option.value = app
+    option.label = app
+    appSelector.appendChild(option);
+  });
+
+  let addNew = document.createElement("option");
+  addNew.value = "add_new"
+  addNew.label = "(Coming soon) Add new app"
+  addNew.disabled = true;
+
+  appSelector.appendChild(addNew);
+
+  appSelector.value = apps[0];
+
+  appSelector.dispatchEvent(new Event('change'));
 })

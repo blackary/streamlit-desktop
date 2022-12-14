@@ -19,6 +19,7 @@ const { APPS_DIR, DEFAULT_APP, DEFAULT_FILENAME, SERVER_FILE_PATH, DEFAULT_APP_C
 
 
 const editorCodeUpdated = (newCode) => {
+    console.log("UPDATED");
     console.log(newCode);
     fs.writeFileSync(`${APPS_DIR}/${selectedApp}/${DEFAULT_FILENAME}`, newCode);
     fs.writeFileSync(SERVER_FILE_PATH, newCode);
@@ -27,7 +28,7 @@ const editorCodeUpdated = (newCode) => {
 
 
 const editor = new EditorView({
-    doc: DEFAULT_APP_CONTENTS,
+    //doc: DEFAULT_APP_CONTENTS,
     extensions: [
         basicSetup,
         keymap.of([indentWithTab]),
@@ -58,6 +59,16 @@ const editor = new EditorView({
 let selectedApp = DEFAULT_APP;
 
 const selectedAppChanged = (new_app) => {
+    if (new_app === "") {
+        return;
+    }
+    if (new_app === '<Add new app>') {
+
+        if (new_app_name === null) {
+            return;
+        }
+        new_app = new_app_name;
+    }
     console.log(new_app);
     selectedApp = new_app;
     // Create the directory and default file if it doesn't exist
@@ -71,18 +82,19 @@ const selectedAppChanged = (new_app) => {
     replaceEditorContents(app_file);
 }
 
-// Get selected radio button from the app chooser
-let selected = document.querySelector('input[name="app"]:checked');
+// Get selected app from the selectbox
+let selected = document.querySelector('select[name="app"]');
 selectedAppChanged(selected.value);
 
-// Loop through all the radio buttons with the name app and add a click event listener
-document.querySelectorAll('input[name="app"]').forEach((radio) => {
-    radio.addEventListener('click', (event) => {
-        selectedAppChanged(event.target.value);
-    });
-});
+document.querySelector('select[name="app"]').onchange = (event) => {
+    selectedAppChanged(event.target.value);
+};
+
 // Update to initial state
-editorCodeUpdated(editor.state.doc.toString())
+let contents = editor.state.doc.toString();
+if (contents) {
+    editorCodeUpdated(contents);
+}
 
 require('electron').ipcRenderer.on('serverLog', (event, message) => {
     // Send logs to the #logs div

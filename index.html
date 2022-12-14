@@ -12,24 +12,28 @@
   </head>
   <body>
     <h1>Streamlit Desktop</h1>
+
+    <label for="app" class="select-app-label">Select an app</label>
+    <select name="app" id="app-selector">
+      <!--
+      <option value="my_first_streamlit">my_first_streamlit</option>
+      <option value="my_second_streamlit">my_second_streamlit</option>
+      <option value="+Add new app">+Add new app</option>
+      -->
+    </select>
+
+    <input
+      type="text"
+      id="new-app-name"
+      placeholder="New app name"
+      style="display: none"
+    />
+
+    <br />
+    <br />
+
     <span>Change the code here, and see your app previewed on the right</span>
-
     <div id="editor"></div>
-
-    <div id="appChooser">
-      <div class="options">
-        <input
-          type="radio"
-          name="app"
-          value="my_first_streamlit"
-          checked="checked"
-        />
-        <label for="my_first_streamlit">my_first_streamlit</label>
-        <input type="radio" name="app" value="my_second_streamlit" />
-        <label for="my_second_streamlit">my_second_streamlit</label>
-      </div>
-      <div class="addNew">+Add new app</div>
-    </div>
 
     <div class="log-label">Logs:</div>
     <br />
