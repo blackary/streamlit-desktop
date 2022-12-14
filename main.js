@@ -139,6 +139,7 @@ function createWindow () {
     width: TOTAL_WIDTH,
     height: TOTAL_HEIGHT,
     title: "Streamlit Desktop",
+    icon: 'icon.png'
   });
 
   const leftView = new BrowserView({
