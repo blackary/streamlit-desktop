@@ -25,5 +25,5 @@ Clone the repo and run the following commands:
 ```sh
 ./download_python.sh
 npm install
-npm run
+npm run start
 ```

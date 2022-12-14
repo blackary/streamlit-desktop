@@ -3,9 +3,75 @@
 /* Add styles here to customize the appearance of your app */
 
 body {
-  background-color: white;
+  background-color: tomato;
+  color: #111;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: normal;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-align: left;
+  padding: 12px 20px;
+  padding-bottom: 200px;
 }
 
+h1 {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: Inter, ui-sans-serif, system-ui, Helvetica, Arial, sans-serif;
+  font-feature-settings: normal;
+  text-align: left;
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(38 39 48 / var(--tw-text-opacity));
+  grid-column-start: 1;
+  grid-column-end: 13;
+  font-size: 6rem;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  padding: 12px 0px;
+}
+
+p {
+  color: #111;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 50px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-align: left;
+  padding-bottom: 20px;
+}
+
+#editor {
+  width: 80%;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  outline-style: solid;
+  outline-color: black;
+  outline-width: 3px;
+  margin: 30px;
+}
+
+textarea {
+  width: 50%;
+  height: 150px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  font-size: 16px;
+  resize: none;
+  outline-style: solid;
+  outline-color: black;
+  outline-width: 3px;
+  margin-left: 30px;
+}
 .log-label {
-  margin-top: 40px;
+  margin-top: 10px;
 }
