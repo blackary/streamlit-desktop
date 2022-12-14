@@ -55,23 +55,61 @@ p {
   outline-color: black;
   outline-width: 3px;
   margin: 30px;
+  padding: 20px;
+}
+
+.log-label {
+  margin-top: 1px;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+  border-radius: 4px;
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 30%;
+  border-color: #000;
+  border-width: 3px;
+  text-align: center;
+  outline: none;
+  font-size: 15px;
+  margin-left: 30px;
+  margin-bottom: 5px;
+  font-weight: 700;
+  font-family: sans-serif;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active,
+.collapsible:hover {
+  background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+  /* padding: 3px; */
+  width: 30%;
+  display: none;
+  border-radius: 3px;
+  /* overflow: hidden; */
+  background-color: white;
+  margin-left: 30px;
 }
 
 textarea {
-  width: 50%;
+  width: 100%;
   height: 150px;
-  padding: 12px 20px;
   box-sizing: border-box;
-  border: 2px solid #ccc;
   border-radius: 4px;
-  background-color: #f8f8f8;
-  font-size: 16px;
+  background-color: white;
+  color: #111;
+  font-size: 10px;
   resize: none;
-  outline-style: solid;
-  outline-color: black;
-  outline-width: 3px;
-  margin-left: 30px;
-}
-.log-label {
-  margin-top: 10px;
+  height: 300px;
+  font-family: Inter, ui-sans-serif, system-ui, Helvetica, Arial, sans-serif;
+  /* border: 2px solid #ccc; */
+
+  /* outline-width: 3px; */
 }
