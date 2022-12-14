@@ -3,6 +3,8 @@ const {app, BrowserWindow, BrowserView, Menu} = require('electron')
 const path = require('path')
 const StreamlitServer = require('./python_environment').StreamlitServer
 const portfinder = require('portfinder');
+const { DEFAULT_APP_CONTENTS, SERVER_FILE_PATH } = require('./consts');
+const fs = require('fs');
 
 const isMac = process.platform === 'darwin'
 
@@ -131,7 +133,7 @@ const TOTAL_WIDTH = 2000;
 const TOTAL_HEIGHT = 1000;
 const LEFT_WIDTH = 1000;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
-const LEFT_DEBUGGER = false
+const LEFT_DEBUGGER = true
 const RIGHT_DEBUGGER = false
 
 function createWindow () {
@@ -188,11 +190,15 @@ app.whenReady().then(async () => {
     }
   })
 
-
+  if (!fs.existsSync(SERVER_FILE_PATH)) {
+    let = contents = DEFAULT_APP_CONTENTS
+    fs.mkdirSync(path.dirname(SERVER_FILE_PATH), { recursive: true })
+    fs.writeFileSync(SERVER_FILE_PATH, contents)
+  }
 
   if (!streamlit_server) {
       portfinder.getPortPromise({port: 8599}).then(async (port) => {
-        streamlit_server = new StreamlitServer(app, '/tmp/test-sync.py', port);
+        streamlit_server = new StreamlitServer(app, SERVER_FILE_PATH, port);
         let url = await streamlit_server.startOrRestart();
         rightView.webContents.loadURL(url);
     })
