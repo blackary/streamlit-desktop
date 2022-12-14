@@ -22,7 +22,22 @@ const updated = (newCode) => {
 
 const editor = new EditorView({
   doc: `import streamlit as st
-st.write("# Hello world!")`,
+
+col1, col2 = st.columns([1,3])
+col2.write("# Hello Streamlit!")
+
+col2.write("# :dog:")
+col2.write("# :cat:")
+col2.write("# :balloon:")
+col2.write("# :brain:")
+col2.write("# :umbrella:")
+col2.write("# :chicken:")
+col2.write("# :ring:")
+
+st.snow()
+
+
+`,
   extensions: [
       basicSetup,
       keymap.of([indentWithTab]),
@@ -56,6 +71,44 @@ require('electron').ipcRenderer.on('processLog', (event, message) => {
 require('electron').ipcRenderer.on('menuItemClick', (event, message) => {
     let contents = "";
     if (message == "Basic") {
+        contents = `import streamlit as st
+import pandas as pd
+import numpy as np
+st.write('# Oh yeah, tabulate')
+
+tab1, tab2, tab3 = st.tabs(["T1", "T2 (rules)", "T3"])
+
+with tab1:
+    st.write("Some stuff")
+    st.write("# This is a pretty good TAB")
+with tab2:
+    st.write("The middle tab!")
+    st.write("# This one is THE BEST")
+with tab3:
+    st.write("Another tab???")
+    st.write("# You better believe it")
+
+num = st.slider("Select number", 1, 10, 3)
+
+df = pd.DataFrame(
+    np.random.randn(num, 2) / [50, 50] + [37.76, -122.4],
+    columns=['lat', 'lon'])
+
+st.map(df)
+`
+    }
+    else if (message == "Plot") {
+        contents = `import streamlit as st
+import pandas as pd
+
+st.title("Let's see some :bar_chart:")
+st.write('Some charts')
+
+df = pd.DataFrame({"a": [1,2,3], "b": [2,5,10]})
+st.line_chart(df)
+st.bar_chart(df)`
+    }
+    else if (message == "Complex") {
         contents = `# Import python packages
 import streamlit as st
 import pandas as pd
@@ -91,33 +144,7 @@ st.bar_chart(data=sql_data)
 st.subheader("Underlying data :bar_chart:")
 st.table(sql_data)
 
-        `
-    }
-    else if (message == "Plot") {
-        contents = `import streamlit as st
-st.write('# Some charts')
 
-st.line_chart({"a": [1,2,3], "b": [2,5,10]})
-        `
-    }
-    else if (message == "Complex") {
-        contents = `import streamlit as st
-
-st.write('# Some More Streamlit Stuff')
-
-tab1, tab2, tab3 = st.tabs(["These", "Are", "Tabs"])
-
-with tab1:
-    st.write("Some stuff")
-with tab2:
-    st.write("The middle tab!")
-
-with tab3:
-    st.write("Another tab???")
-
-num = st.slider("Select number", 1, 10, 3)
-
-st.write(f"{num}^{num}: ", num**num)
 `
     }
     editor.setState(EditorState.create({
