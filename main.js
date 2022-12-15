@@ -127,9 +127,9 @@ const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 
 const TOP = 30;
-const TOTAL_WIDTH = 2000;
+const TOTAL_WIDTH = 1500;
 const TOTAL_HEIGHT = 1000;
-const LEFT_WIDTH = 1000;
+const LEFT_WIDTH = 750;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
 const LEFT_DEBUGGER = false
 const RIGHT_DEBUGGER = false
@@ -142,6 +142,9 @@ function createWindow () {
     title: "Streamlit Desktop",
     icon: 'icon.png'
   });
+
+
+
 
   const leftView = new BrowserView({
     webPreferences: {
