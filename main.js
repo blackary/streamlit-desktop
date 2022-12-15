@@ -48,6 +48,10 @@ const template = [
       {
         label: "Complex",
         click: menuClick,
+      },
+      {
+        label: "Snowpark",
+        click: menuClick
       }
     ]
   },
@@ -129,7 +133,7 @@ const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
 
 const TOP = 30;
-const TOTAL_WIDTH = 2000;
+const TOTAL_WIDTH = 1500;
 const TOTAL_HEIGHT = 1000;
 const LEFT_WIDTH = TOTAL_WIDTH / 2;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
@@ -144,6 +148,9 @@ function createWindow () {
     title: "Streamlit Desktop",
     icon: 'icon.png'
   });
+
+
+
 
   const leftView = new BrowserView({
     webPreferences: {

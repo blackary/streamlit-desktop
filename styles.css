@@ -6,7 +6,7 @@ body {
   background-color: tomato;
   color: #111;
   font-family: "Helvetica Neue", sans-serif;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: normal;
   letter-spacing: -1px;
   line-height: 1;
@@ -35,6 +35,26 @@ h1 {
   padding: 12px 0px;
 }
 
+h3 {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: Inter, ui-sans-serif, system-ui, Helvetica, Arial, sans-serif;
+  font-feature-settings: normal;
+  text-align: left;
+  box-sizing: border-box;
+  border: 0 solid;
+  margin: 0;
+  font-weight: 700;
+  --tw-text-opacity: 1;
+  color: rgb(38 39 48 / var(--tw-text-opacity));
+  grid-column-start: 1;
+  grid-column-end: 13;
+  font-size: 18;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  padding: 12px 0px;
+}
+
 p {
   color: #111;
   font-family: "Helvetica Neue", sans-serif;
@@ -54,8 +74,10 @@ p {
   outline-style: solid;
   outline-color: black;
   outline-width: 3px;
-  margin: 30px;
-  padding: 20px;
+  margin-left: 30px;
+  margin-bottom: 30px;
+  margin-top: 15px;
+  padding-bottom: 20px;
 }
 
 .log-label {
