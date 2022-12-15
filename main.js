@@ -46,6 +46,10 @@ const template = [
       {
         label: "Complex",
         click: menuClick,
+      },
+      {
+        label: "Snowpark",
+        click: menuClick
       }
     ]
   },

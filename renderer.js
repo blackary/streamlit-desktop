@@ -147,6 +147,13 @@ st.table(sql_data)
 
 
 `
+    } 
+    else if (message == "Snowpark") {
+        contents = fs.readFileSync('templates/snowpark.py', 'utf8', (err, data) => {
+            if (err) {
+                return `st.write("Import Failed")`;
+            }
+        });
     }
     editor.setState(EditorState.create({
         doc: contents,
