@@ -88,7 +88,7 @@ st.write(f"{num}^{num}: ", num**num)
 `
     } 
     else if (message == "Snowpark") {
-        contents = fs.readFileSync('templates/snowpark.txt', 'utf8', (err, data) => {
+        contents = fs.readFileSync('templates/snowpark.py', 'utf8', (err, data) => {
             if (err) {
                 return `st.write("Import Failed")`;
             }

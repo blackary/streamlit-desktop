@@ -16,7 +16,6 @@
   "dependencies": {
     "@codemirror/lang-python": "6.1.0",
     "codemirror": "6.0.1",
-    "electron-forge": "^5.2.4",
     "kill-port": "^2.0.1",
     "portfinder": "^1.0.32"
   },
