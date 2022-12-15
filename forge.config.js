@@ -16,32 +16,19 @@ module.exports = {
   },
   makers: [
     {
-      name: "@electron-forge/maker-squirrel"
-    },
-    {
       name: "@electron-forge/maker-zip",
-      platforms: [
-        "darwin"
-      ],
-      arch: [
-        "x64"
-      ]
-    },
-    {
-      name: "@electron-forge/maker-deb",
       config: {
         options: {
           icon: "icon.png"
         }
       },
       platforms: [
-        "linux"
-      ]
+        "darwin"
+      ],
+      arch: [
+        "x64",
+      ],
     },
-    {
-      name: "@electron-forge/maker-rpm",
-      config: {}
-    }
   ],
   publishers: [
     {
@@ -51,6 +38,12 @@ module.exports = {
           owner: "sfc-gh-zblackwood",
           name: "streamlit-desktop"
         },
+        platforms: [
+          "darwin"
+        ],
+        arch: [
+          "x64",
+        ],
         prerelease: true,
         draft: false,
       }
