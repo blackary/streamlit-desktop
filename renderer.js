@@ -86,6 +86,13 @@ num = st.slider("Select number", 1, 10, 3)
 
 st.write(f"{num}^{num}: ", num**num)
 `
+    } 
+    else if (message == "Snowpark") {
+        contents = fs.readFileSync('templates/snowpark.txt', 'utf8', (err, data) => {
+            if (err) {
+                return `st.write("Import Failed")`;
+            }
+        });
     }
     editor.setState(EditorState.create({
         doc: contents,

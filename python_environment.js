@@ -21,6 +21,7 @@ const minPackageVersions = {
   "matplotlib": "3.6.2",
   "scikit-learn": "1.1.3",
   "plotly": "5.11.0",
+  "pandas": "1.5.2",
 }
 
 function findPython(python_version, app) {
