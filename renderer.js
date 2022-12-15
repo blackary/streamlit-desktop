@@ -15,46 +15,86 @@ const {python} = require("@codemirror/lang-python")
 const {indentWithTab} = require("@codemirror/commands")
 const fs = require('fs');
 
-const updated = (newCode) => {
+const { APPS_DIR, DEFAULT_APP, DEFAULT_FILENAME, SERVER_FILE_PATH, DEFAULT_APP_CONTENTS } = require('./consts');
+
+
+const editorCodeUpdated = (newCode) => {
+    console.log("UPDATED");
     console.log(newCode);
-    fs.writeFileSync('/tmp/test-sync.py', newCode);
+    fs.writeFileSync(`${APPS_DIR}/${selectedApp}/${DEFAULT_FILENAME}`, newCode);
+    fs.writeFileSync(SERVER_FILE_PATH, newCode);
 }
 
+
+
 const editor = new EditorView({
-  doc: `import streamlit as st
+    //doc: DEFAULT_APP_CONTENTS,
+    extensions: [
+        basicSetup,
+        keymap.of([indentWithTab]),
+        python(),
+        EditorView.updateListener.of((viewUpdate) => {
+          if (viewUpdate.docChanged) {
+              const doc = viewUpdate.state.doc;
+              const value = doc.toString();
+              editorCodeUpdated(value);
+          }
+      }),
+    ],
+    parent: document.getElementById('editor'),
+  });
 
-col1, col2 = st.columns([1,3])
-col2.write("# Hello Streamlit!")
 
-col2.write("# :dog:")
-col2.write("# :cat:")
-col2.write("# :balloon:")
-col2.write("# :brain:")
-col2.write("# :umbrella:")
-col2.write("# :chicken:")
-col2.write("# :ring:")
-
-st.snow()
+  const replaceEditorContents = (newContents) => {
+      editor.dispatch({
+          changes: {
+              from: 0,
+              to: editor.state.doc.length,
+              insert: newContents
+          }
+      })
+  }
 
 
-`,
-  extensions: [
-      basicSetup,
-      keymap.of([indentWithTab]),
-      python(),
-      EditorView.updateListener.of((viewUpdate) => {
-        if (viewUpdate.docChanged) {
-            const doc = viewUpdate.state.doc;
-            const value = doc.toString();
-            updated(value);
+let selectedApp = DEFAULT_APP;
+
+const selectedAppChanged = (new_app) => {
+    if (new_app === "") {
+        return;
+    }
+    if (new_app === '<Add new app>') {
+
+        if (new_app_name === null) {
+            return;
         }
-    }),
-  ],
-  parent: document.getElementById('editor'),
-});
+        new_app = new_app_name;
+    }
+    console.log(new_app);
+    selectedApp = new_app;
+    // Create the directory and default file if it doesn't exist
+    if (!fs.existsSync(`${APPS_DIR}/${selectedApp}`)) {
+        fs.mkdirSync(`${APPS_DIR}/${selectedApp}`, { recursive: true });
+        let contents = DEFAULT_APP_CONTENTS + `\n"## This is ${selectedApp}"`;
+        fs.writeFileSync(`${APPS_DIR}/${selectedApp}/${DEFAULT_FILENAME}`, contents);
+    }
+    // Read the file from the app directory
+    let app_file = fs.readFileSync(`${APPS_DIR}/${selectedApp}/${DEFAULT_FILENAME}`, 'utf8');
+    replaceEditorContents(app_file);
+}
+
+// Get selected app from the selectbox
+let selected = document.querySelector('select[name="app"]');
+selectedAppChanged(selected.value);
+
+document.querySelector('select[name="app"]').onchange = (event) => {
+    selectedAppChanged(event.target.value);
+};
 
 // Update to initial state
-updated(editor.state.doc.toString())
+let contents = editor.state.doc.toString();
+if (contents) {
+    editorCodeUpdated(contents);
+}
 
 require('electron').ipcRenderer.on('serverLog', (event, message) => {
     // Send logs to the #logs div
@@ -147,7 +187,7 @@ st.table(sql_data)
 
 
 `
-    } 
+    }
     else if (message == "Snowpark") {
         contents = fs.readFileSync('templates/snowpark.py', 'utf8', (err, data) => {
             if (err) {
@@ -155,37 +195,20 @@ st.table(sql_data)
             }
         });
     }
-    editor.setState(EditorState.create({
-        doc: contents,
-        extensions: [
-            basicSetup,
-            keymap.of([indentWithTab]),
-            python(),
-            EditorView.updateListener.of((viewUpdate) => {
-                if (viewUpdate.docChanged) {
-                    const doc = viewUpdate.state.doc;
-                    const value = doc.toString();
-                    updated(value);
-                }
-            }),
-        ],
-    }))
-
-    updated(contents);
+    replaceEditorContents(contents);
 })
 
+var coll = document.getElementsByClassName("collapsible");
+var i;
 
-  var coll = document.getElementsByClassName("collapsible");
-  var i;
-
-  for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var content = this.nextElementSibling;
-      if (content.style.display === "block") {
-        content.style.display = "none";
-      } else {
-        content.style.display = "block";
-      }
-    });
-  }
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}

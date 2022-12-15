@@ -13,13 +13,23 @@
   <body>
     <h1>Streamlit Desktop</h1>
     <h3>Welcome to the next generation of data science</h3>
-    <h3>Type your code below</h3>
 
+    <label for="app" class="select-app-label">Select an app</label>
+    <select name="app" id="app-selector"></select>
+
+    <input
+      type="text"
+      id="new-app-name"
+      placeholder="New app name"
+      style="display: none"
+    />
+
+    <br />
+    <br />
+
+    <h3>Type your code below</h3>
     <div id="editor"></div>
 
-    <div class="indicator"></div>
-
-    <!-- <div class="log-label">Logs:</div> -->
     <button type="button" class="collapsible">Open Logs</button>
     <div class="content">
       <textarea id="logs"></textarea>

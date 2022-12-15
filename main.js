@@ -1,8 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow, BrowserView, Menu} = require('electron')
+const {app, BrowserWindow, BrowserView, Menu, screen} = require('electron')
 const path = require('path')
 const StreamlitServer = require('./python_environment').StreamlitServer
 const portfinder = require('portfinder');
+const { DEFAULT_APP_CONTENTS, SERVER_FILE_PATH } = require('./consts');
+const fs = require('fs');
 
 const isMac = process.platform === 'darwin'
 
@@ -133,7 +135,7 @@ Menu.setApplicationMenu(menu)
 const TOP = 30;
 const TOTAL_WIDTH = 1500;
 const TOTAL_HEIGHT = 1000;
-const LEFT_WIDTH = 750;
+const LEFT_WIDTH = TOTAL_WIDTH / 2;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
 const LEFT_DEBUGGER = false
 const RIGHT_DEBUGGER = false
@@ -176,30 +178,58 @@ function createWindow () {
   if (LEFT_DEBUGGER) leftView.webContents.openDevTools();
   if (RIGHT_DEBUGGER) rightView.webContents.openDevTools();
 
-  return [leftView, rightView];
+  return [leftView, rightView, mainWindow];
 }
 
 let streamlit_server = null;
+
+const setWindowSizes = (leftView, rightView, mainWindow) => {
+  var mainScreen = screen.getPrimaryDisplay();
+  var dimensions = mainScreen.size;
+
+  let MONITOR_WIDTH = dimensions.width;
+  let MONITOR_HEIGHT = dimensions.height;
+
+  let WINDOW_HEIGHT = parseInt(MONITOR_HEIGHT * 0.9);
+  let WINDOW_WIDTH = parseInt(MONITOR_WIDTH * 0.9);
+  let WINDOW_START = parseInt((MONITOR_WIDTH - WINDOW_WIDTH) / 2);
+
+  let HALF_WIDTH = parseInt(WINDOW_WIDTH / 2);
+
+  mainWindow.setBounds({ x: WINDOW_START, y: 0, width: WINDOW_WIDTH, height: WINDOW_HEIGHT })
+
+  leftView.setBounds({ x: 0, y: TOP, width: WINDOW_WIDTH/2, height: WINDOW_HEIGHT - TOP})
+  rightView.setBounds({ x: HALF_WIDTH, y: TOP, width: HALF_WIDTH, height: WINDOW_HEIGHT - TOP})
+}
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-  let [leftView, rightView] = createWindow()
+  let [leftView, rightView, mainWindow] = createWindow()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
-      [leftView, rightView] = createWindow()
+      [leftView, rightView, mainWindow] = createWindow()
+      rightView.webContents.loadURL(streamlit_server.getUrl())
+      setWindowSizes(leftView, rightView, mainWindow)
     }
   })
 
+  setWindowSizes(leftView, rightView, mainWindow)
 
+
+  if (!fs.existsSync(SERVER_FILE_PATH)) {
+    let = contents = DEFAULT_APP_CONTENTS
+    fs.mkdirSync(path.dirname(SERVER_FILE_PATH), { recursive: true })
+    fs.writeFileSync(SERVER_FILE_PATH, contents)
+  }
 
   if (!streamlit_server) {
       portfinder.getPortPromise({port: 8599}).then(async (port) => {
-        streamlit_server = new StreamlitServer(app, '/tmp/test-sync.py', port);
+        streamlit_server = new StreamlitServer(app, SERVER_FILE_PATH, port);
         let url = await streamlit_server.startOrRestart();
         rightView.webContents.loadURL(url);
     })

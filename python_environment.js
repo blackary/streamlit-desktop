@@ -130,8 +130,6 @@ class StreamlitServer {
     const venv_dir = await this.ensureVenv();
     await this.ensurePackagesInstalled();
     const streamlit_bin = path.join(venv_dir, "bin", "streamlit");
-    //this.spawn = spawn
-    //this.process = this.spawn(streamlit_bin,["run", this.file].concat(this.serverArgs()));
 
     return new Promise((resolve, reject) => {
       try {
@@ -150,7 +148,7 @@ class StreamlitServer {
       process.stdout.on("data", (data) => {
         console.log(data.toString())
         if (/view your Streamlit app/.test(data)) {
-          resolve('http://localhost:' + this.port)
+          resolve(this.getUrl())
         }
         for (const line of data.toString().split("\n")) {
           this.serverLog(line);
@@ -164,6 +162,9 @@ class StreamlitServer {
     });
   }
 
+  getUrl() {
+    return `http://localhost:${this.port}`;
+  }
 
   shutdown() {
     this.process.kill();
@@ -185,9 +186,15 @@ class StreamlitServer {
     return versions;
   }
 
-  async ensureVenv() {
+  getEnvDir() {
     const stdesktop_app_dir = path.join(process.env.HOME, ".streamlit-desktop");
     const venv_dir = path.join(stdesktop_app_dir, "envs", this.environment);
+    return venv_dir;
+  }
+
+  async ensureVenv() {
+    const venv_dir = this.getEnvDir();
+    const stdesktop_app_dir = path.join(process.env.HOME, ".streamlit-desktop");
     if (!fs.existsSync(stdesktop_app_dir)) {
       await mkdir(stdesktop_app_dir);
     }
