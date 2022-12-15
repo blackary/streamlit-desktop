@@ -147,7 +147,7 @@ class StreamlitServer {
       process.stdout.on("data", (data) => {
         console.log(data.toString())
         if (/view your Streamlit app/.test(data)) {
-          resolve('http://localhost:' + this.port)
+          resolve(this.getUrl())
         }
         for (const line of data.toString().split("\n")) {
           this.serverLog(line);
@@ -161,6 +161,9 @@ class StreamlitServer {
     });
   }
 
+  getUrl() {
+    return `http://localhost:${this.port}`;
+  }
 
   shutdown() {
     this.process.kill();
