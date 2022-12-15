@@ -12,7 +12,7 @@ Then, just open the installer to add it to your Applications
 
 ## Usage
 
-GIF showing how the application works
+![Recording 2022-12-15 at 13 42 30](https://user-images.githubusercontent.com/102999810/207941756-e071eaba-4479-4f9a-bacf-39162672a015.gif)
 
 ## Contributing
 
