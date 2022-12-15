@@ -6,7 +6,7 @@ The application was created during December Snowvation 2022
 
 ## Installation
 
-TODO:: Download the app HERE
+Download the app [here](https://github.com/sfc-gh-zblackwood/streamlit-desktop/releases)
 
 Then, just open the installer to add it to your Applications
 
