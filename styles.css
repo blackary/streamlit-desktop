@@ -113,3 +113,13 @@ textarea {
 
   /* outline-width: 3px; */
 }
+
+select {
+  height: 36px;
+  border: 1px solid #999;
+  font-size: 18px;
+  background-color: #eee;
+  border-radius: 5px;
+  box-shadow: 4px 4px #ccc;
+  padding-left: 3px;
+}
