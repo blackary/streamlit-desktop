@@ -16,18 +16,20 @@ const fs = require('fs');
 const {APPS_DIR} = require('./consts');
 
 const getApps = () => {
-  const apps = fs.readdirSync(APPS_DIR);
-  return apps;
+  try {
+    return fs.readdirSync(APPS_DIR);
+  } catch(e) {
+    return [];
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-
-  const apps = getApps();
+  let apps = getApps();
   if (apps.length === 0) {
     apps = DEFAULT_APPS
     DEFAULT_APPS.forEach(app => {
-      fs.mkdirSync(`${APPS_DIR}/${app}`);
-      let contents = DEFAULT_APP_CONTENTS + `\n"## This is ${selectedApp}"`;
+      fs.mkdirSync(`${APPS_DIR}/${app}`, { recursive: true });
+      let contents = DEFAULT_APP_CONTENTS + `\n"## This is ${app}"`;
       fs.writeFileSync(`${APPS_DIR}/${app}/streamlit_app.py`, contents);
     });
   }
