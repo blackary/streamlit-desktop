@@ -74,7 +74,8 @@ p {
   outline-style: solid;
   outline-color: black;
   outline-width: 3px;
-  margin-left: 30px;
+  /* margin-left: 30px; */
+  width: inherit;
   margin-bottom: 30px;
   margin-top: 15px;
   padding-bottom: 20px;
