@@ -18,11 +18,14 @@
 
     <div class="indicator"></div>
 
-    <div class="log-label">Logs:</div>
+    <!-- <div class="log-label">Logs:</div> -->
     <br />
-    <textarea id="logs"></textarea>
+    <button type="button" class="collapsible">Open Logs</button>
+    <div class="content">
+      <textarea id="logs"></textarea>
+      <script src="./renderer.js"></script>
+    </div>
 
     <!-- You can also require other files to run in this process -->
-    <script src="./renderer.js"></script>
   </body>
 </html>
