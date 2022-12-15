@@ -195,21 +195,7 @@ st.table(sql_data)
             }
         });
     }
-    editor.setState(EditorState.create({
-        doc: contents,
-        extensions: [
-            basicSetup,
-            keymap.of([indentWithTab]),
-            python(),
-            EditorView.updateListener.of((viewUpdate) => {
-                if (viewUpdate.docChanged) {
-                    const doc = viewUpdate.state.doc;
-                    const value = doc.toString();
-                    updated(value);
-                }
-            }),
-        ],
-    }))
+    replaceEditorContents(contents);
 })
 
 var coll = document.getElementsByClassName("collapsible");
