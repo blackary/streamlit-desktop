@@ -16,14 +16,14 @@ st.write(
 
 # Use an interactive slider to get user input
 hifives_val = st.slider(
-    "Number of votes :hand:",
+    "Maximum number of votes :hand:",
     min_value=0,
     max_value=90,
     value=60,
-    help="Use this to enter the number of high-fives you gave in Q3",
+    help="Use this to enter the total number of votes cast",
 )
-sql_data = pd.DataFrame(np.random.randint(10, size=(10, 3)) * 10)
-sql_data.columns = [f"Votes for {i}" for i in range(1, 4)]
+sql_data = pd.DataFrame(np.random.randint(hifives_val, size=(3, 3)))
+sql_data.columns = [f"Votes for {i}" for i in range(0, 3)]
 
 # Create a simple bar chart
 # See docs.streamlit.io for more types of charts
