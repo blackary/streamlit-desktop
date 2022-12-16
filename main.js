@@ -137,7 +137,7 @@ const TOTAL_WIDTH = 1500;
 const TOTAL_HEIGHT = 1000;
 const LEFT_WIDTH = TOTAL_WIDTH / 2;
 const RIGHT_WIDTH = TOTAL_WIDTH - LEFT_WIDTH;
-const LEFT_DEBUGGER = false
+const LEFT_DEBUGGER = true
 const RIGHT_DEBUGGER = false
 
 function createWindow () {
