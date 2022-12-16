@@ -21,8 +21,12 @@ const { APPS_DIR, DEFAULT_APP, DEFAULT_FILENAME, SERVER_FILE_PATH, DEFAULT_APP_C
 const editorCodeUpdated = (newCode) => {
     console.log("UPDATED");
     console.log(newCode);
-    fs.writeFileSync(`${APPS_DIR}/${selectedApp}/${DEFAULT_FILENAME}`, newCode);
+    // Check to see if the directory of SERVER_FILE_PATH exists first:
+    if (!fs.existsSync(path.dirname(SERVER_FILE_PATH))) {
+        fs.mkdirSync(path.dirname(SERVER_FILE_PATH), { recursive: true });
+    }
     fs.writeFileSync(SERVER_FILE_PATH, newCode);
+    fs.writeFileSync(`${APPS_DIR}/${selectedApp}/${DEFAULT_FILENAME}`, newCode);
 }
 
 
