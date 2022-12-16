@@ -146,7 +146,6 @@ class StreamlitServer {
       }
       this.process = process;
       process.stdout.on("data", (data) => {
-        console.log(data.toString())
         if (/view your Streamlit app/.test(data)) {
           resolve(this.getUrl())
         }
