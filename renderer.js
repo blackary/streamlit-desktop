@@ -7,13 +7,13 @@
  */
 
 
+const fs = require('fs');
+const { join } = require("path")
+
 const {basicSetup} = require("codemirror")
 const {EditorView, keymap} = require("@codemirror/view")
-const {EditorState} = require("@codemirror/state")
-
 const {python} = require("@codemirror/lang-python")
 const {indentWithTab} = require("@codemirror/commands")
-const fs = require('fs');
 
 const { APPS_DIR, DEFAULT_APP, DEFAULT_FILENAME, SERVER_FILE_PATH, DEFAULT_APP_CONTENTS } = require('./consts');
 
@@ -111,33 +111,25 @@ require('electron').ipcRenderer.on('processLog', (event, message) => {
 require('electron').ipcRenderer.on('menuItemClick', (event, message) => {
     let contents = "";
     if (message == "Basic") {
-        contents = fs.readFileSync('templates/basic.py', 'utf8', (err, data) => {
-            if (err) {
-                return `st.error("Import Failed for basic.py")`;
-            }
-        });
+        file_path = join(__dirname, 'templates/basic.py')
     }
     else if (message == "Plot") {
-        contents = fs.readFileSync('templates/plot.py', 'utf8', (err, data) => {
-            if (err) {
-                return `st.error("Import Failed for plot.py")`;
-            }
-        });
+        file_path = join(__dirname, 'templates/plot.py')
     }
     else if (message == "Complex") {
-        contents = fs.readFileSync('templates/complex.py', 'utf8', (err, data) => {
-            if (err) {
-                return `st.error("Import Failed for complex.py")`;
-            }
-        });
+        file_path = join(__dirname, 'templates/plot.py')
     }
     else if (message == "Snowpark") {
-        contents = fs.readFileSync('templates/snowpark.py', 'utf8', (err, data) => {
-            if (err) {
-                return `st.error("Import Failed snowpark.py")`;
-            }
-        });
+        file_path = join(__dirname, 'templates/snowpark.py')
     }
+    else {
+        return;
+    }
+    contents = fs.readFileSync(file_path, 'utf8', (err, data) => {
+        if (err) {
+            return `st.error("Import Failed for ${file_path}")`;
+        }
+    });
     replaceEditorContents(contents);
 })
 
