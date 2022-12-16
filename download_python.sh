@@ -12,5 +12,5 @@ if [ ! -d "$standalone_python" ]; then
     # Now delete the test/ folder, saving about 23MB of disk space
     rm -rf python/lib/python3.8/test
 else
-    echo "Python already exists in the default Streamlit Desktop environment"
+    echo "Already downloaded Python into $standalone_python"
 fi

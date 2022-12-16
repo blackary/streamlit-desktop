@@ -4,9 +4,9 @@ Streamlit-Desktop is a standalone desktop Electron app for managing your python 
 
 The application was created during December Snowvation 2022
 
-## Installation
+## Want to try the app?
 
-Download the app [here](https://github.com/sfc-gh-zblackwood/streamlit-desktop/releases)
+Download the app [here](https://github.com/sfc-gh-zblackwood/streamlit-desktop/releases)!
 
 Then, just open the installer to add it to your Applications
 
@@ -18,9 +18,8 @@ Then, just open the installer to add it to your Applications
 
 PRs are welcome from Snowflake employees
 
-## Local Development
-
-Clone the repo and run the following commands:
+If you would like to contribute to the app, clone the repo and run the following
+commands:
 
 ```sh
 ./download_python.sh
