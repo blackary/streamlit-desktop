@@ -47,7 +47,7 @@ module.exports = {
         platforms: [
           "darwin"
         ],
-        arch: [
+      arch: [
           "x64",
         ],
         prerelease: true,

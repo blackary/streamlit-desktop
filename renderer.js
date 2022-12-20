@@ -14,6 +14,7 @@ const {basicSetup} = require("codemirror")
 const {EditorView, keymap} = require("@codemirror/view")
 const {python} = require("@codemirror/lang-python")
 const {indentWithTab} = require("@codemirror/commands")
+const path = require("path")
 
 const { APPS_DIR, DEFAULT_APP, DEFAULT_FILENAME, SERVER_FILE_PATH, DEFAULT_APP_CONTENTS } = require('./consts');
 
